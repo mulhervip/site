@@ -40,6 +40,7 @@ export const SignIn: React.FC = () => {
         updateUser(user)
         getUserInfos(user)
         setIsLoading(false)
+        history.push('/')
       })
       .catch((error) => {
         setIsLoading(false)
@@ -100,14 +101,13 @@ export const SignIn: React.FC = () => {
               errorMessage={errors.password?.message}
               sx={{ width: isMobile ? '80vw' : '40vw' }}
             />
-            <Stack mt={3} spacing={2} direction={isMobile ? 'column-reverse' : 'row'}>
+            <Stack mt={3} spacing={2} direction={'row'}>
               <Button onClick={() => history.push('/signUp')}>
                 Cadastrar
               </Button>
               <Button
                 type='submit'
                 variant='primary'
-                disabled={isLoading}
                 isLoading={isLoading}
               >Entrar</Button>
             </Stack>

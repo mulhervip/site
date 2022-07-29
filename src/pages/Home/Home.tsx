@@ -43,20 +43,20 @@ export const Home: React.FC = () => {
             })
         })
       })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     getProducts(updateItems)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  useEffect(()=>{
-    if(!user || !account) {
+  useEffect(() => {
+    if (!user || !account) {
       getUserInfos(updateAccount)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Container>
@@ -72,8 +72,27 @@ export const Home: React.FC = () => {
           <Slide bannerImages={bannerImages} />
         </Stack>
       )}
+      <Typography
+        typography={{ xs: 'body1', md: 'h2' }}
+        sx={{
+          color: 'white',
+          bgcolor: '#a9cf46',
+          borderRadius: 2,
+          fontWeight: 'bold',
+          fontSize: '2.5rem',
+          fontFamily: 'Roboto',
+          cursor: 'pointer',
+          paddingX: { xs: 3, md: 5 },
+          animationDuration: '2s',
+          ':hover': {
+            transform: {
+              fontSize: '2.5rem',
+            }
+          }
+        }}
+      >Tudo em moda feminina ❤️</Typography>
       {filter && (
-        <Stack  justifyContent='flex-end' sx={{ width: '95%' }}  direction='row'>
+        <Stack justifyContent='flex-end' sx={{ width: '95%' }} direction='row'>
           <Typography
             sx={{
               paddingX: 2,
@@ -87,7 +106,7 @@ export const Home: React.FC = () => {
               borderRadius: '30px',
               boxShadow: '0px 0px 10px rgba(169, 207, 70, .5)',
             }}>
-              Filtro: <b>{filter}</b>
+            Filtro: <b>{filter}</b>
             <Stack alignItems='center' onClick={clearFilter}><Close /></Stack>
           </Typography>
         </Stack>

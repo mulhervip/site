@@ -26,19 +26,19 @@ export const Cart: React.FC = () => {
   const { storeState: { CartItems }, operations: { updateCartItems, resetCartItems } } = useCartItemsStore()
 
   const getCartProducts = () => {
-    if(account){
+    if (account) {
       const cartProductsRef = ref(db)
       get(child(cartProductsRef, 'cart/' + account.id)).then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val() as CartItem[]
           var items = Object.keys(data).map((key: any) => data[key])
-          if(items.length > 0 ){
+          if (items.length > 0) {
             updateCartItems(items)
             return
           }
         }
       }).catch(() => {
-        return enqueueSnackbar('Ocorreu um erro ao recuperar seus itens do carrinho', { 
+        return enqueueSnackbar('Ocorreu um erro ao recuperar seus itens do carrinho', {
           variant: 'error',
           autoHideDuration: 3000
         })
@@ -46,7 +46,7 @@ export const Cart: React.FC = () => {
       return
     }
 
-    enqueueSnackbar('Você precisa ter uma conta para acessar o carrinho', { 
+    enqueueSnackbar('Você precisa ter uma conta para acessar o carrinho', {
       variant: 'warning',
       autoHideDuration: 4000
     })
@@ -54,8 +54,8 @@ export const Cart: React.FC = () => {
   }
 
   const finishBuy = () => {
-    if(account && CartItems.length > 0){
-      if(selectedPaymentOption){
+    if (account && CartItems.length > 0) {
+      if (selectedPaymentOption) {
         const key = push(child(ref(db), 'sales')).key
         const sale: Sale = {
           account,
@@ -65,24 +65,25 @@ export const Cart: React.FC = () => {
           paymentMethod: selectedPaymentOption as unknown as keyof typeof PaymentMethod
         }
         set(ref(db, 'sales/' + key), sale)
-          .then(()=>{
-            remove(ref(db, '/cart/' +  account.id))
-              .then(()=>{
+          .then(() => {
+            remove(ref(db, '/cart/' + account.id))
+              .then(() => {
                 resetCartItems()
-                return enqueueSnackbar('Compra finalizada', { 
+                history.push('/purchase')
+                return enqueueSnackbar('Compra finalizada', {
                   variant: 'success',
                   autoHideDuration: 3000
                 })
               })
           })
           .catch(() => {
-            return enqueueSnackbar('Ops! ocorreu um erro ao realizar o cadastro', { 
+            return enqueueSnackbar('Ops! ocorreu um erro ao realizar o cadastro', {
               variant: 'error',
               autoHideDuration: 3000
             })
           })
       } else
-        return enqueueSnackbar('Você precisa informar um método de pagamento', { 
+        return enqueueSnackbar('Você precisa informar um método de pagamento', {
           variant: 'error',
           autoHideDuration: 3000
         })
@@ -94,20 +95,20 @@ export const Cart: React.FC = () => {
     return
   }
 
-  useEffect(()=>{
-    if(!account) {
+  useEffect(() => {
+    if (!account) {
       getUserInfos(updateAccount)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     getCartProducts()
     setIsLoading(false)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  if(isLoading) {
+  if (isLoading) {
     return (
       <Container>
         <EmptyPage />
@@ -115,7 +116,7 @@ export const Cart: React.FC = () => {
     )
   }
 
-  if(CartItems.length === 0) {
+  if (CartItems.length === 0) {
     return (
       <Container>
         <EmptyPage />
@@ -132,8 +133,9 @@ export const Cart: React.FC = () => {
     { value: PaymentMethod.CART_CREDIT, label: 'CARTÃO DE DÉBITO' },
   ]
 
-  return (  
+  return (
     <Container>
+      <Typography typography={{ xs: 'h5', md: 'h3' }} mt={4} mb={2}>Itens do carrinho</Typography>
       <Stack sx={{ width: isMobile ? '80vw' : '50vw' }}>
         {CartItems && (
           <Stack sx={{ width: '100%' }} alignItems='center' justifyContent='center'>
@@ -141,7 +143,7 @@ export const Cart: React.FC = () => {
               total = total + (Number(item.price) * item.amount)
               return <FullScreenItemCard key={index} item={item} />
             })}
-          </Stack> 
+          </Stack>
         )}
         <Stack alignItems='flex-end' sx={{ width: '100%' }}>
           <Typography sx={{ display: 'flex', alignItems: 'center' }} variant='h5'>
@@ -158,12 +160,12 @@ export const Cart: React.FC = () => {
             placeholder='Forma de pagamento'
             value={selectedPaymentOption}
             labelId='payment-method-label'
-            onChange={(option)=>setSelectedPaymentOption(option.target.value as unknown as selectOptionProps)}
+            onChange={(option) => setSelectedPaymentOption(option.target.value as unknown as selectOptionProps)}
           >
             {selectOption.map((option, key) => <MenuItem key={key} value={option.value}>{option.label}</MenuItem>)}
           </Select>
         </Stack>
-        <Stack mt={8} spacing={2} direction={isMobile ? 'column' :'row'} justifyContent='space-between' sx={{ width: '100%' }}>
+        <Stack mt={8} spacing={2} direction={isMobile ? 'column' : 'row'} justifyContent='space-between' sx={{ width: '100%' }}>
           <Button
             variant='secondary'
             onClick={clearCart}

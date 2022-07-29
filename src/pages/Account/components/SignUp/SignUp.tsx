@@ -71,6 +71,13 @@ export const SignUp: React.FC = () => {
               })
             })
         })
+        .catch(err => {
+          setIsLoading(false)
+          return enqueueSnackbar('Ops! ocorreu um erro ao realizar o cadastro: ' + err.code, {
+            variant: 'error',
+            autoHideDuration: 3000
+          })
+        })
     } catch (error) {
       setIsLoading(false)
       return enqueueSnackbar('Ops! ocorreu um erro ao realizar o cadastro', {
@@ -88,7 +95,7 @@ export const SignUp: React.FC = () => {
   return (
     <Container>
       <Box sx={{ padding: 3 }}>
-        <Typography mb={3} sx={{ alignText: 'center' }} variant='h4'>Criar sua conta</Typography>
+        <Typography textAlign='center' mb={3} sx={{ alignText: 'center' }} variant='h4'>Criar sua conta</Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid spacing={2} container>
             <Grid item md={isMobile ? 12 : 4} lg={isMobile ? 12 : 4} xs={isMobile ? 12 : 4}>
@@ -194,7 +201,7 @@ export const SignUp: React.FC = () => {
             </Grid>
           </Grid>
           <Stack mt={3} alignItems='center' justifyContent='center' sx={{ width: '100%' }}>
-            <Button variant='primary' disabled={isLoading} type='submit'>
+            <Button isLoading={isLoading} variant='primary' type='submit'>
               Criar conta
             </Button>
           </Stack>

@@ -11,7 +11,7 @@ import { CartItem, Item } from '../../types/item'
 import { formatToRealStr } from '../../utils/format'
 import { useAccountStore } from '../../store/account/reducer'
 import { getDatabase, ref, set, child, get } from 'firebase/database'
-import { Drawer, Avatar, Stack, Typography, Box,InputLabel, Grid } from '@mui/material'
+import { Drawer, Avatar, Stack, Typography, Box, InputLabel, Grid } from '@mui/material'
 
 export interface SeeMoreModalProps {
   item: Item
@@ -35,33 +35,33 @@ export const SeeMoreModal: React.FC<SeeMoreModalProps> = ({ item, isOpen, onClos
   const [isSelectedSize, setIsSelectedSize] = useState<number>()
 
   const getCartProducts = () => {
-    if(account){
+    if (account) {
       const cartProductsRef = ref(db)
       get(child(cartProductsRef, 'cart/' + account.id)).then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val() as CartItem[]
           var items = Object.keys(data).map((key: any) => data[key])
-          if(items.length > 0 ){
+          if (items.length > 0) {
             addToCart(items)
             return
           }
         } else addToCart([])
       }).catch(() => {
-        return enqueueSnackbar('Ocorreu um erro ao recuperar seus itens do carrinho', { 
+        return enqueueSnackbar('Ocorreu um erro ao recuperar seus itens do carrinho', {
           variant: 'error',
           autoHideDuration: 3000
         })
       })
       return
     }
-    enqueueSnackbar('Você precisa estar logado para adicionar itens', { 
+    enqueueSnackbar('Você precisa estar logado para adicionar itens', {
       variant: 'error',
       autoHideDuration: 3000
     })
     history.push('/signUp')
   }
 
-  const selectedSize = useMemo(()=>{
+  const selectedSize = useMemo(() => {
     switch (isSelectedSize) {
       case 0:
         return Size.P
@@ -77,26 +77,27 @@ export const SeeMoreModal: React.FC<SeeMoreModalProps> = ({ item, isOpen, onClos
         return null
     }
     // switch (isSelectedSize)
-  },[isSelectedSize])
+  }, [isSelectedSize])
 
   const addToCart = (items: CartItem[] | []) => {
-    if(selectedSize === null) {
-      return enqueueSnackbar('Você precisa escolher uma opção de tamanho', { 
+    if (selectedSize === null) {
+      return enqueueSnackbar('Você precisa escolher uma opção de tamanho', {
         variant: 'error',
         autoHideDuration: 3000
       })
     }
     const cartItem = { ...item, amount, note, selectedSize }
     set(ref(db, 'cart/' + account!.id), items.length > 0 ? [...items, cartItem] : [cartItem])
-      .then(()=>{
+      .then(() => {
         onClose()
-        return enqueueSnackbar('Item adicionado ao carrinho', { 
+        history.push('/cart')
+        return enqueueSnackbar('Item adicionado ao carrinho', {
           variant: 'success',
           autoHideDuration: 3000
         })
       })
       .catch(() => {
-        return enqueueSnackbar('Ops! ocorreu um erro ao realizar o cadastro', { 
+        return enqueueSnackbar('Ops! ocorreu um erro ao realizar o cadastro', {
           variant: 'error',
           autoHideDuration: 3000
         })
@@ -108,25 +109,27 @@ export const SeeMoreModal: React.FC<SeeMoreModalProps> = ({ item, isOpen, onClos
   const note = watch('note') || ''
 
   const decreaseAmount = () => {
-    if(amount > 1)
+    if (amount > 1)
       setAmount(amount - 1)
   }
-  
-  const testSizeLabel = ['P','M','G','PS','TU']
+
+  const testSizeLabel = ['P', 'M', 'G', 'PS', 'TU']
 
   return (
     <Drawer
       variant='temporary'
       anchor='bottom'
       open={isOpen}
-      PaperProps={{ sx: {
-        paddingY: 2,
-        height: '90vh',
-        maxHeight: '90vh',
-        paddingX: isMobile ? 1 : 4,
-        borderTopLeftRadius: '20px',
-        borderTopRightRadius: '20px',
-      } }}
+      PaperProps={{
+        sx: {
+          paddingY: 2,
+          height: '90vh',
+          maxHeight: '90vh',
+          paddingX: isMobile ? 1 : 4,
+          borderTopLeftRadius: '20px',
+          borderTopRightRadius: '20px',
+        }
+      }}
     >
 
       <Stack alignItems='flex-end'>
@@ -143,14 +146,14 @@ export const SeeMoreModal: React.FC<SeeMoreModalProps> = ({ item, isOpen, onClos
           />
         </Stack>
 
-        <Stack justifyContent='space-between' sx={{ flex: 1, height: '100%',  paddingX: 2 }}>
+        <Stack justifyContent='space-between' sx={{ flex: 1, height: '100%', paddingX: 2 }}>
           <Box>
             <Typography variant={isMobile ? 'h4' : 'h3'} sx={{ textAlign: 'center' }}>{(item.name).toUpperCase()}</Typography>
             <Typography sx={{ marginTop: 5, opacity: .7, textIndent: '2em' }}>{item.description}</Typography>
           </Box>
           <Box>
             <Stack mt={isMobile ? 3 : 0} mb={3} sx={{ width: '100%' }}>
-              <Typography sx={{ marginRight: 2 }}>Observações (opcional):</Typography>
+              <Typography sx={{ marginRight: 2, marginTop: 1 }}>Observações (opcional):</Typography>
               <HfField
                 multiline
                 name='note'
@@ -178,7 +181,7 @@ export const SeeMoreModal: React.FC<SeeMoreModalProps> = ({ item, isOpen, onClos
                           }}
                           variant='secondary'
                           disabled={!isSizeAvailable}
-                          onClick={()=>setIsSelectedSize(index)}
+                          onClick={() => setIsSelectedSize(index)}
                         >
                           <Typography>{testSizeLabel[index]}</Typography>
                         </Button>
@@ -216,7 +219,7 @@ export const SeeMoreModal: React.FC<SeeMoreModalProps> = ({ item, isOpen, onClos
                 <Typography variant='subtitle1' sx={{ marginX: 1.5 }}>Qtd.: <b>{amount}</b></Typography>
                 <Stack
                   alignItems='center'
-                  onClick={()=>setAmount(amount + 1)}
+                  onClick={() => setAmount(amount + 1)}
                   sx={{
                     width: '20px',
                     height: '20px',
