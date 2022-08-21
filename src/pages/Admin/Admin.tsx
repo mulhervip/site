@@ -8,6 +8,7 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt'
 import { Box, Stack, Typography } from '@mui/material'
 import TimelineIcon from '@mui/icons-material/Timeline'
 import adminAnimation from '../../assets/lottie/admin.json'
+import { useAccountStore } from '../../store/account/reducer'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate'
 import { InsertItemModal, UpdateItemModal, DeleteItemModal, AlterBannerModal } from './components'
@@ -24,10 +25,15 @@ const DEFAULT_OPTIONS = {
 export const Admin: React.FC = () => {
   const history = useHistory()
   const isMobile = useIsMobile()
+  const { storeState: { account } } = useAccountStore()
   const [insertItemIsOpen, toggleInsertItem] = useModal()
   const [updateItemIsOpen, toggleUpdateItem] = useModal()
   const [alterBannerIsOpen, toggleAlterBanner] = useModal()
   const [deleteItemIsOpen, toggleDeleteItemIsOpen] = useModal()
+
+  if (account && !account.isAdmin) {
+    return <div />
+  }
 
   return (
     <Container>
@@ -51,7 +57,7 @@ export const Admin: React.FC = () => {
             borderLeft: `${isMobile ? '40px' : '80px'} solid #a9cf46`,
           }}
         >
-          <Stack justifyContent='space-between' sx={{ height: '60%' , marginLeft: 3, }}>
+          <Stack justifyContent='space-between' sx={{ height: '60%', marginLeft: 3, }}>
             <Stack onClick={toggleInsertItem}>
               <Typography sx={{ display: 'flex', color: '#9CADBF', alignItems: 'center', cursor: 'pointer' }}>
                 <AddIcon sx={{ marginRight: 1 }} />
@@ -70,7 +76,7 @@ export const Admin: React.FC = () => {
                 <b>DELETAR</b>
               </Typography>
             </Stack>
-            <Stack onClick={()=>history.push('/admin/vendas')}>
+            <Stack onClick={() => history.push('/admin/vendas')}>
               <Typography sx={{ display: 'flex', color: '#9CADBF', alignItems: 'center', cursor: 'pointer' }}>
                 <TimelineIcon sx={{ marginRight: 1 }} />
                 <b>ACOMPANHAR PEDIDOS</b>

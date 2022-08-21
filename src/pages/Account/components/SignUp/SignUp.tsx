@@ -40,8 +40,12 @@ export const SignUp: React.FC = () => {
   }
 
   const validationSchema: yup.SchemaOf<formValuesType> = yup.object().shape({
-    cep: yup.string().required('Campo obrigatório'),
-    senha: yup.string().required('Campo obrigatório'),
+    cep: yup.string()
+      .min(8, 'Insira um cep válido')
+      .required('Campo obrigatório'),
+    senha: yup.string()
+      .min(8, 'Sua senha precisar ter no mínimo 8 caracteres.')
+      .required('Campo obrigatório'),
     city: yup.string().required('Campo obrigatório'),
     name: yup.string().required('Campo obrigatório'),
     phone: yup.string().required('Campo obrigatório'),
@@ -101,6 +105,7 @@ export const SignUp: React.FC = () => {
             <Grid item md={isMobile ? 12 : 4} lg={isMobile ? 12 : 4} xs={isMobile ? 12 : 4}>
               <HfField
                 name='email'
+                type='email'
                 inputType='flat'
                 control={control}
                 placeholder='Seu e-mail'
@@ -152,6 +157,7 @@ export const SignUp: React.FC = () => {
             <Grid item md={isMobile ? 12 : 4} lg={isMobile ? 12 : 4} xs={isMobile ? 12 : 4}>
               <HfField
                 name='cep'
+                type='number'
                 inputType='flat'
                 control={control}
                 placeholder='CEP'

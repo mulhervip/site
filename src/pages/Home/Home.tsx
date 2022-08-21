@@ -92,7 +92,7 @@ export const Home: React.FC = () => {
         }}
       >Tudo em moda feminina ❤️</Typography>
       {filter && (
-        <Stack justifyContent='flex-end' sx={{ width: '95%' }} direction='row'>
+        <Stack mt={2} justifyContent='flex-end' sx={{ width: '95%' }} direction='row'>
           <Typography
             sx={{
               paddingX: 2,
@@ -124,7 +124,7 @@ export const Home: React.FC = () => {
           )}
         </Grid>
       ) : (
-        <EmptyPage dontShowActionButton={true} />
+        <EmptyPage dontShowActionButton />
       )}
     </Container>
   )
