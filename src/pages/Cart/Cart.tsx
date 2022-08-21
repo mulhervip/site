@@ -171,6 +171,10 @@ export const Cart: React.FC = () => {
             onClick={clearCart}
           >Limpar carrinho</Button>
           <Button
+            variant='secondary'
+            onClick={() => history.push('/')}
+          >Continuar Comprando</Button>
+          <Button
             variant='primary'
             onClick={finishBuy}
           >Concluir compra</Button>

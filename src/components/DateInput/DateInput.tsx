@@ -1,9 +1,8 @@
 import React from 'react'
-import { TextInput, TextInputProps } from '../TextInput'
-import DateAdapter from '@mui/lab/AdapterDateFns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import DatePicker from '@mui/lab/DatePicker'
 import ptBr from 'date-fns/locale/pt-BR'
+import { TextInput, TextInputProps } from '../TextInput'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 
 export interface DateInputProps extends Omit<TextInputProps, 'onChange' | 'value'> {
   value?: Date | null
@@ -17,12 +16,12 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>((props
   const emptyFn = () => { } // Remove this later. Reason, to fix a type error
 
   return (
-    <LocalizationProvider dateAdapter={DateAdapter} locale={ptBr}>
-      <DatePicker
+    <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBr}>
+      <DesktopDatePicker
         value={value}
         onChange={onChange || emptyFn}
         ref={ref}
-        renderInput={(params) => {
+        renderInput={(params: any) => {
           return (
             <TextInput
               {...params}

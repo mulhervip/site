@@ -13,26 +13,26 @@ export const SeeSale: React.FC<SeeSaleModalProps> = ({ sale, isOpen, closeModal 
   const db = getDatabase()
   const isMobile = useIsMobile()
 
-  const finishOrder = (clientEmail: string) => {
+  const finishOrder = (clientPhone: string) => {
     const alertConfirmation = window.confirm('Tem certeza que deseja FINALIZAR este pedido?')
-    if(alertConfirmation){
+    if (alertConfirmation) {
       set(ref(db, 'sales/' + sale.id), { ...sale, status: SaleStatus.DELIVERED })
     }
-    const sendMailConfirmation = window.confirm('Deseja avisar ao cliente por e-mail?')
-    if(alertConfirmation && sendMailConfirmation){
-      window.location.href = `mailto:${clientEmail}?subject=Sua compra saiu para entrega!`
+    const sendMailConfirmation = window.confirm('Deseja avisar ao cliente via Whatsapp?')
+    if (alertConfirmation && sendMailConfirmation) {
+      window.open(`https://api.whatsapp.com/send?phone=${clientPhone}&text=Olá! obrigado por comprar na Mulher Vip!. Viemos confirmar que seu pedido foi finalizado. Esperamos que aproveite muito! 💚`, '_blank')
     }
     closeModal()
   }
 
-  const outForDelivery = (clientEmail: string) => {
+  const outForDelivery = (clientPhone: string) => {
     const alertConfirmation = window.confirm('Confirmar que o item SAIU PARA ENTREGA?')
-    if(alertConfirmation){
-      set(ref(db, 'sales/' + sale.id), { ...sale, status: SaleStatus.OUT_FOR_DELIVERY })      
+    if (alertConfirmation) {
+      set(ref(db, 'sales/' + sale.id), { ...sale, status: SaleStatus.OUT_FOR_DELIVERY })
     }
-    const sendMailConfirmation = window.confirm('Deseja avisar ao cliente por e-mail?')
-    if(alertConfirmation && sendMailConfirmation){
-      window.location.href = `mailto:${clientEmail}?subject=Sua compra saiu para entrega!`
+    const sendMailConfirmation = window.confirm('Deseja avisar ao cliente via Whatsapp?')
+    if (alertConfirmation && sendMailConfirmation) {
+      window.open(`https://api.whatsapp.com/send?phone=${clientPhone}&text=Olá! aqui é da Mulher Vip 😄. Viemos avisar que seu pedido saiu para entrega!.`, '_blank')
     }
     closeModal()
   }
@@ -42,15 +42,17 @@ export const SeeSale: React.FC<SeeSaleModalProps> = ({ sale, isOpen, closeModal 
       anchor='bottom'
       variant='temporary'
       open={isOpen}
-      PaperProps={{ sx: {
-        paddingY: 2,
-        height: '90vh',
-        maxHeight: '90vh',
-        overflowX: 'hidden',
-        paddingX: isMobile ? 1 : 4,
-        borderTopLeftRadius: '20px',
-        borderTopRightRadius: '20px',
-      } }}
+      PaperProps={{
+        sx: {
+          paddingY: 2,
+          height: '90vh',
+          maxHeight: '90vh',
+          overflowX: 'hidden',
+          paddingX: isMobile ? 1 : 4,
+          borderTopLeftRadius: '20px',
+          borderTopRightRadius: '20px',
+        }
+      }}
     >
 
       <Stack alignItems='flex-end'>
@@ -65,7 +67,7 @@ export const SeeSale: React.FC<SeeSaleModalProps> = ({ sale, isOpen, closeModal 
       <Typography variant='h6' sx={{ color: '#9CADBF' }}><b>Pagamento:</b> {PaymentMethodTitle[sale.paymentMethod]}</Typography>
 
       <Stack mt={2} sx={{ flexWrap: 'wrap' }} direction='row' alignItems='flex-start'>
-        {sale.items.map((item: CartItem, index)=>(
+        {sale.items.map((item: CartItem, index) => (
           <FullScreenItemCard item={item} key={index} />
         ))}
       </Stack>
@@ -80,14 +82,14 @@ export const SeeSale: React.FC<SeeSaleModalProps> = ({ sale, isOpen, closeModal 
       >
         <Button
           variant='secondary'
-          onClick={()=> outForDelivery(sale.account.email)}
+          onClick={() => outForDelivery(sale.account.phone)}
           disabled={sale.status !== SaleStatus.IN_PREPARATION}
         >
           Saiu para entrega
         </Button>
         <Button
           variant='primary'
-          onClick={() => finishOrder(sale.account.email)}
+          onClick={() => finishOrder(sale.account.phone)}
           disabled={sale.status === SaleStatus.DELIVERED}
         >
           Finalizar pedido
