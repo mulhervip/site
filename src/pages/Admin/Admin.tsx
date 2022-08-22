@@ -1,9 +1,11 @@
+import { useEffect } from 'react'
 import Lottie from 'react-lottie'
 import { useHistory } from 'react-router'
 import { useIsMobile } from '../../hooks'
 import { Container } from '../../components'
 import AddIcon from '@mui/icons-material/Add'
 import { useModal } from '../../hooks/useModal'
+import { getUserInfos } from '../../hooks/useUseInfo'
 import SyncAltIcon from '@mui/icons-material/SyncAlt'
 import { Box, Stack, Typography } from '@mui/material'
 import TimelineIcon from '@mui/icons-material/Timeline'
@@ -25,13 +27,20 @@ const DEFAULT_OPTIONS = {
 export const Admin: React.FC = () => {
   const history = useHistory()
   const isMobile = useIsMobile()
-  const { storeState: { account } } = useAccountStore()
   const [insertItemIsOpen, toggleInsertItem] = useModal()
   const [updateItemIsOpen, toggleUpdateItem] = useModal()
   const [alterBannerIsOpen, toggleAlterBanner] = useModal()
   const [deleteItemIsOpen, toggleDeleteItemIsOpen] = useModal()
+  const { storeState: { account }, operations: { updateAccount } } = useAccountStore()
 
-  if (account && !account.isAdmin) {
+  useEffect(() => {
+    if (!account) {
+      getUserInfos(updateAccount)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (!account?.isAdmin) {
     return <div />
   }
 
