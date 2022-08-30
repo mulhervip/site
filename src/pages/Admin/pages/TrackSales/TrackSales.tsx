@@ -19,6 +19,19 @@ export const TrackSales: React.FC = () => {
   const [selectedSale, setSelectedSale] = useState<Sale>()
   const [seeSaleIsOpen, setSeeSaleIsOpen] = useState<boolean>(false)
 
+  const saleStatusValues: Record<SaleStatus, number> = {
+    [SaleStatus.DELIVERED]: 0,
+    [SaleStatus.IN_PREPARATION]: 1,
+    [SaleStatus.OUT_FOR_DELIVERY]: 2,
+  }
+
+  const orderItems = (a: Sale, b: Sale) => {
+    if (saleStatusValues[a.status] > saleStatusValues[b.status]) {
+      return -1
+    }
+    return 1
+  }
+
   const getSales = () => {
     const cartProductsRef = ref(db, 'sales/')
     try {
@@ -27,7 +40,7 @@ export const TrackSales: React.FC = () => {
           const data = snapshot.val() as Sale[]
           var items = Object.keys(data).map((key: any) => data[key]).reverse()
           if (items.length > 0) {
-            setSales(items)
+            setSales(items.sort((a, b) => orderItems(a, b)))
             return
           }
         }

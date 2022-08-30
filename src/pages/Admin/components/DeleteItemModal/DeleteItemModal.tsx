@@ -5,11 +5,11 @@ import { Item } from '../../../../types/item'
 import { useIsMobile } from '../../../../hooks'
 import { ModalProps } from '../../../../types/util'
 import { useMemo, useEffect, useState } from 'react'
+import { Drawer, Stack, Typography } from '@mui/material'
 import { getDatabase, ref, remove } from 'firebase/database'
-import { HfField, SelectInput } from '../../../../components'
 import { getProducts } from '../../../../hooks/useGetProducts'
 import { useItemsStore } from '../../../../store/items/reducer'
-import { Drawer, Stack, Typography, Button } from '@mui/material'
+import { HfField, SelectInput, Button } from '../../../../components'
 
 type InsertItemFormValues = Partial<Item> & {
   item?: any
@@ -22,22 +22,22 @@ export const DeleteItemModal: React.FC<ModalProps> = ({ isOpen, closeModal }) =>
   const [infosChange, toggleInfosChange] = useState<boolean>(false)
   const { storeState: { items }, operations: { updateItems } } = useItemsStore()
 
-  const ItemsOptions = useMemo(()=> {
+  const ItemsOptions = useMemo(() => {
     return [{ value: '', label: '---' }, ...Object.entries(items).map(item => ({ value: item[1].id, label: item[1].name }))]
-  },[items])
+  }, [items])
 
   const { control, handleSubmit, watch } = useForm<InsertItemFormValues>()
 
   const selectedItemWatch = watch('item')
 
   const onSubmit = () => {
-    remove(ref(db, '/products/' + selectedItemWatch)).then(()=>{
+    remove(ref(db, '/products/' + selectedItemWatch)).then(() => {
       toggleInfosChange(!infosChange)
       return enqueueSnackbar('Item Removido com sucesso!', {
         variant: 'success',
         autoHideDuration: 3000
       })
-    }).catch(()=>{
+    }).catch(() => {
       return enqueueSnackbar('Ops! ocorreu um erro ao tentar remover o item', {
         variant: 'error',
         autoHideDuration: 3000
@@ -48,45 +48,47 @@ export const DeleteItemModal: React.FC<ModalProps> = ({ isOpen, closeModal }) =>
   const selectedItem = useMemo(() => {
     const item: Item = items.filter(item => item.id === selectedItemWatch)[0]
     return item
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[selectedItemWatch, infosChange])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItemWatch, infosChange])
 
-  useEffect(()=> {
-    if(items.length === 0){
+  useEffect(() => {
+    if (items.length === 0) {
       getProducts(updateItems)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Drawer
       variant='temporary'
       anchor='bottom'
       open={isOpen}
-      PaperProps={{ sx: {
-        paddingY: 2,
-        height: '90vh',
-        maxHeight: '90vh',
-        paddingX: isMobile ? 1 : 4,
-        borderTopLeftRadius: '20px',
-        borderTopRightRadius: '20px',
-      } }}
+      PaperProps={{
+        sx: {
+          paddingY: 2,
+          height: '90vh',
+          maxHeight: '90vh',
+          paddingX: isMobile ? 1 : 4,
+          borderTopLeftRadius: '20px',
+          borderTopRightRadius: '20px',
+        }
+      }}
     >
       <Stack alignItems='flex-end'>
         <Close sx={{ cursor: 'pointer', marginX: 1 }} onClick={closeModal} />
       </Stack>
-      <Typography variant='h2' sx={{ textAlign: 'center' }} >Deletar item</Typography>
+      <Typography variant='h2' fontWeight={500} textAlign='center'>Deletar item</Typography>
 
       <Stack>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack>
             <HfField
               name='item'
-              label='Item'
               inputType='flat'
               control={control}
               options={ItemsOptions}
               component={SelectInput}
+              label='Selecione um item'
             />
             {selectedItem && (
               <>
@@ -95,7 +97,14 @@ export const DeleteItemModal: React.FC<ModalProps> = ({ isOpen, closeModal }) =>
                   <Typography sx={{ color: '#9CADBF' }}><b>Preço:</b> R$ {Number(selectedItem?.price).toFixed(2)}</Typography>
                   <Typography sx={{ color: '#9CADBF' }}><b>Descrição:</b> {selectedItem?.description}</Typography>
                 </Stack>
-                <Button sx={{ marginTop: 3 }} disabled={!selectedItemWatch} type='submit'>Deletar</Button>
+                <Button
+                  type='submit'
+                  variant='primary'
+                  sx={{ marginTop: 3 }}
+                  disabled={!selectedItemWatch}
+                >
+                  Deletar
+                </Button>
               </>
             )}
           </Stack>

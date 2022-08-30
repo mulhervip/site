@@ -18,8 +18,8 @@ export const SeeSale: React.FC<SeeSaleModalProps> = ({ sale, isOpen, closeModal 
     if (alertConfirmation) {
       set(ref(db, 'sales/' + sale.id), { ...sale, status: SaleStatus.DELIVERED })
     }
-    const sendMailConfirmation = window.confirm('Deseja avisar ao cliente via Whatsapp?')
-    if (alertConfirmation && sendMailConfirmation) {
+    const sendMessageConfirmation = window.confirm('Deseja avisar ao cliente via WhatsApp?')
+    if (alertConfirmation && sendMessageConfirmation) {
       window.open(`https://api.whatsapp.com/send?phone=${clientPhone}&text=Olá! obrigado por comprar na Mulher Vip!. Viemos confirmar que seu pedido foi finalizado. Esperamos que aproveite muito! 💚`, '_blank')
     }
     closeModal()
@@ -30,8 +30,8 @@ export const SeeSale: React.FC<SeeSaleModalProps> = ({ sale, isOpen, closeModal 
     if (alertConfirmation) {
       set(ref(db, 'sales/' + sale.id), { ...sale, status: SaleStatus.OUT_FOR_DELIVERY })
     }
-    const sendMailConfirmation = window.confirm('Deseja avisar ao cliente via Whatsapp?')
-    if (alertConfirmation && sendMailConfirmation) {
+    const sendMessageConfirmation = window.confirm('Deseja avisar ao cliente via WhatsApp?')
+    if (alertConfirmation && sendMessageConfirmation) {
       window.open(`https://api.whatsapp.com/send?phone=${clientPhone}&text=Olá! aqui é da Mulher Vip 😄. Viemos avisar que seu pedido saiu para entrega!.`, '_blank')
     }
     closeModal()

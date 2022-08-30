@@ -26,24 +26,24 @@ export const Footer: React.FC = () => {
   const ImageWithLink: React.FC<ImageWithLinkProps> = ({ url, invertColor, path, desc }) => (
     <Box
       mx={2}
-      color='#FFF'
+      href={url}
       display='flex'
       target='_blank'
       component={Link}
       alignItems='center'
+      color='rgba(0,0,0,.6)'
       sx={{ textDecoration: 'none' }}
-      href={url}
     >
       {path && (
         <Avatar
           src={path}
           variant='square'
           alt='Logo mulher vip'
-          sx={{ height: 'auto', width: '30px', marginRight: 1 }}
-          imgProps={{ style: { objectFit: 'contain', filter: invertColor ? 'invert(100%)' : 'none' } }}
+          imgProps={{ style: { objectFit: 'contain', filter: 'invert(1000%)',  } }}
+          sx={{ height: 'auto', width: '30px', marginRight: 1, opacity: .6 }}
         />
       )}
-      {desc && <Typography>{desc}</Typography>}
+      {desc && <Typography sx={{ fontWeight: 600 }}>{desc}</Typography>}
     </Box>
   )
 
@@ -55,33 +55,32 @@ export const Footer: React.FC = () => {
         bottom: 0,
         zIndex: 200,
         marginTop: 10,
-        backgroundColor: '#a9cf46',
+        backgroundColor: 'transparent',
+        // backgroundColor: '#a9cf46',
       }}
     >
       <Stack sx={{
         marginY: 1.5,
         height: '15px',
         width: '100vw',
-        backgroundColor: 'white',
-      }}></Stack>
+        backgroundColor: '#a9cf46',
+      }}/>
+      
       <Toolbar
         sx={{
           display: 'flex',
-          marginBottom: 2,
-          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: '#a9cf46',
           justifyContent: 'center',
         }}
       >
         <Stack
-          mb={2}
-          width='150px'
-          height='150px'
+          p={.5}
           marginRight={2}
-          bgcolor='#86a82d'
-          borderRadius='50%'
+          bgcolor='#a9cf46'
+          borderRadius={2}
           alignItems='center'
           justifyContent='center'
-          boxShadow='0px 0px 10px rgba(0, 0, 0, 0.1)'
         >
           <Avatar
             src={LogoMulherVip}
@@ -106,12 +105,16 @@ export const Footer: React.FC = () => {
           />
         </Stack>
       </Toolbar>
+
+
+
+
       <Stack direction='row' alignItems='center' justifyContent='center'
         sx={{
           marginY: 1.5,
           height: '15px',
           width: '100vw',
-          backgroundColor: 'white',
+          backgroundColor: '#a9cf46',
         }}>
         <Typography
           color='#000'

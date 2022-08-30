@@ -73,14 +73,15 @@ export const Home: React.FC = () => {
         </Stack>
       )}
       <Typography
-        typography={{ xs: 'body1', md: 'h2' }}
+        typography={{ xs: 'body1', md: 'h4' }}
         sx={{
           color: 'white',
           bgcolor: '#a9cf46',
           borderRadius: 2,
-          fontWeight: 'bold',
+          fontWeight: 600,
           fontSize: '2.5rem',
           fontFamily: 'Roboto',
+          // font-weight: 800
           cursor: 'pointer',
           paddingX: { xs: 3, md: 5 },
           animationDuration: '2s',

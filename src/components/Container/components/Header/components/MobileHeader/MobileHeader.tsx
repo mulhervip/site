@@ -11,8 +11,8 @@ import {
 import { useHistory } from 'react-router'
 import FeedIcon from '@mui/icons-material/Feed'
 import { useModal } from '../../../../../../hooks/useModal'
-import { useAccountStore } from '../../../../../../store/account/reducer'
 import { AccountCircle, ShoppingCart } from '@mui/icons-material'
+import { useAccountStore } from '../../../../../../store/account/reducer'
 import { Categories, CategoriesTitle } from '../../../../../../types/categories'
 
 export const MobileHeader: React.FC = () => {
@@ -26,7 +26,8 @@ export const MobileHeader: React.FC = () => {
       elevation={0}
       sx={{
         zIndex: 200,
-        backgroundColor: 'transparent',
+        backgroundColor: '#FFF',
+        boxShadow: '0px 5px 3px rgba(0,0,0,.1)'
       }}
     >
       <Toolbar
@@ -34,14 +35,22 @@ export const MobileHeader: React.FC = () => {
           minHeight: 70,
           maxHeight: 140,
           display: 'flex',
+          alignItems: 'center',
           flexDirection: 'column',
-          backgroundColor: '#a9cf46',
+          color: 'rgba(0,0,0,.6)',
           justifyContent: 'center',
-          alignItems:'center',
         }}
       >
         <Stack direction='row' alignItems='center' justifyContent='space-between' sx={{ width: '100%' }}>
-          <Link href='/' sx={{ height: '100%' }}>
+          <Link
+            href='/'
+            sx={{
+              p: .5,
+              height: '100%',
+              borderRadius: 2,
+              bgcolor: 'rgba(169, 207, 70,1)',
+            }}
+          >
             <Avatar
               src={Logo}
               variant='square'
@@ -55,7 +64,7 @@ export const MobileHeader: React.FC = () => {
               direction='row'
               alignItems='center'
               sx={{ cursor: 'pointer' }}
-              onClick={()=>history.push('/purchase')}
+              onClick={() => history.push('/purchase')}
             >
               <FeedIcon />
             </Stack>
@@ -63,7 +72,7 @@ export const MobileHeader: React.FC = () => {
               direction='row'
               alignItems='center'
               sx={{ cursor: 'pointer' }}
-              onClick={()=>history.push('/cart')}
+              onClick={() => history.push('/cart')}
             >
               <ShoppingCart />
             </Stack>
@@ -71,7 +80,7 @@ export const MobileHeader: React.FC = () => {
               direction='row'
               alignItems='center'
               sx={{ cursor: 'pointer' }}
-              onClick={()=>{
+              onClick={() => {
                 account && account.isAdmin ?
                   history.push('/admin') :
                   history.push('/account')
@@ -80,9 +89,9 @@ export const MobileHeader: React.FC = () => {
               <AccountCircle />
             </Stack>
             <Stack alignItems='center' onClick={toggleOpenCategories}>
-              <Box sx={{ width: '20px', bgcolor: 'white', height: '2px' }}></Box>
-              <Box sx={{ width: '20px', bgcolor: 'white', height: '2px', marginY: '3px' }}></Box>
-              <Box sx={{ width: '20px', bgcolor: 'white', height: '2px' }}></Box>
+              <Box sx={{ width: '20px', bgcolor: 'rgba(0,0,0,.6)', height: '2px' }}></Box>
+              <Box sx={{ width: '20px', bgcolor: 'rgba(0,0,0,.6)', height: '2px', marginY: '3px' }}></Box>
+              <Box sx={{ width: '20px', bgcolor: 'rgba(0,0,0,.6)', height: '2px' }}></Box>
             </Stack>
           </Stack>
         </Stack>
@@ -94,8 +103,8 @@ export const MobileHeader: React.FC = () => {
           height: 70,
           paddingX: '2px',
           width: '100vw',
+          backgroundColor: '#a9cf46',
           display: openCategories ? 'flex' : 'none',
-          backgroundColor: 'rgba(169, 207, 70, .7)',
         }}
       >
         <Stack justifyContent='space-between' direction='row' sx={{ width: '95%' }}>

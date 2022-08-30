@@ -25,7 +25,7 @@ export const codeOptions = [{ value: '', label: '---' },
   { value: AllItemsByCategories.VESTIDO, label: AllItemsByCategoriesTitle.VESTIDO },
 ]
 
-export const categoryOptions = [{ value: '', label: '---' },
+export const categoryOptions = [
   { value: Categories.ACCESSORIES, label: CategoriesTitle.ACCESSORIES },
   { value: Categories.CLOTHES, label: CategoriesTitle.CLOTHES },
   { value: Categories.FOOTWEAR, label: CategoriesTitle.FOOTWEAR },

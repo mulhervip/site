@@ -135,6 +135,7 @@ export const SignUp: React.FC = () => {
             </Grid>
             <Grid item md={isMobile ? 12 : 4} lg={isMobile ? 12 : 4} xs={isMobile ? 12 : 4}>
               <HfField
+                type='tel'
                 name='phone'
                 inputType='flat'
                 control={control}

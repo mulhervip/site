@@ -133,7 +133,7 @@ export const AlterBannerModal: React.FC<ModalProps> = ({ isOpen, closeModal }) =
       <Stack alignItems='flex-end'>
         <Close sx={{ cursor: 'pointer', marginX: 1 }} onClick={closeModal} />
       </Stack>
-      <Typography variant='h2' sx={{ textAlign: 'center' }}>Banner</Typography>
+      <Typography variant='h2' fontWeight={500} textAlign='center'>Banner</Typography>
 
       <Stack>
         <form onSubmit={handleSubmit(onSubmit)}>
