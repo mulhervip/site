@@ -62,7 +62,6 @@ export const Home: React.FC = () => {
     <Container>
       {bannerImages.length > 0 && (
         <Stack
-          mb={5}
           alignItems='center'
           justifyContent='center'
           sx={{
@@ -76,6 +75,8 @@ export const Home: React.FC = () => {
         typography={{ xs: 'body1', md: 'h4' }}
         sx={{
           color: 'white',
+          mt: 8,
+          mb: 4,
           bgcolor: '#a9cf46',
           borderRadius: 2,
           fontWeight: 600,
