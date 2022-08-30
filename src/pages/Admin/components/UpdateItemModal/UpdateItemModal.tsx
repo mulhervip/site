@@ -212,7 +212,7 @@ export const UpdateItemModal: React.FC<ModalProps> = ({ isOpen, closeModal }) =>
               options={isAvailableOptions}
               label='Disponibilidade'
               component={SelectInput}
-              errorMessage={errors.isAvailable?.message}
+              // errorMessage={errors.isAvailable?.message}
             />
             <Stack spacing={2} mt={5}>
               <Stack alignItems='center'  direction={isMobile ? 'column' : 'row'} mt={5}>
