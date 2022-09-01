@@ -59,7 +59,7 @@ export const Purchase: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
 
-  if (!sales) {
+  if (!sales || sales?.length === 0) {
     return (
       <Container>
         <EmptyPage />
